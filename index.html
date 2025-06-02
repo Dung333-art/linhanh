@@ -9,7 +9,8 @@
       margin: 0;
       font-family: 'Arial', sans-serif;
       overflow-x: hidden;
-      background: linear-gradient(135deg, #fcb1c0, #ffe0e9, #ffd6e0);
+    background: linear-gradient(135deg, #fcb1c0, #ffe0e9, #ffd6e0);
+
     }
 
     .container {
@@ -141,13 +142,14 @@
     }
 
     .book {
-      width: 90vw;
-      max-width: 600px;
-      height: 300px;
-      perspective: 1000px;
-      cursor: pointer;
-      margin-bottom: 20px;
-    }
+  width: 90vw; /* trước là 300px */
+  max-width: 600px;
+  height: 300px; /* tăng chiều cao nếu muốn */
+  perspective: 1000px;
+  cursor: pointer;
+  margin-bottom: 20px;
+}
+
 
     .book-inner {
       width: 100%;
@@ -162,22 +164,23 @@
     }
 
     .page {
-      position: absolute;
-      width: 100%;
-      height: 100%;
-      background: #fff5f8;
-      border: 2px solid #ffb6c1;
-      border-radius: 10px;
-      box-shadow: 0 0 10px rgba(0,0,0,0.3);
-      padding: 20px;
-      backface-visibility: hidden;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      text-align: center;
-      overflow-y: auto;
-    }
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: #fff5f8;
+  border: 2px solid #ffb6c1;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.3);
+  padding: 20px;
+  backface-visibility: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  overflow-y: auto; /* 👈 THÊM DÒNG NÀY để cho cuộn nếu dài */
+   justify-content: center; /* 👈 thêm hoặc chỉnh dòng này */
+  text-align: center;       /* 👈 thêm nếu chưa có */
+}
 
     .page.front { z-index: 2; }
     .page.back {
@@ -245,48 +248,171 @@
       justify-content: flex-start;
       padding-top: 80px;
     }
+   
 
-    @media (max-width: 600px) {
-      h1 {
-        font-size: 24px;
-        text-align: center;
-      }
-
-      .slide p {
-        font-size: 16px;
-        padding: 0 10px;
-        text-align: center;
-      }
-
-      .photo-frame {
-        width: 90px;
-        height: 110px;
-        margin: 10px auto;
-        display: block;
-        animation: drop-in 1.5s ease-out forwards;
-      }
-
-      /* ❌ Đã bỏ phần căn giữa left/right-frame trên điện thoại */
-
-      .gift-grid {
-        grid-template-columns: repeat(auto-fit, minmax(90px, 1fr));
-        padding: 10px;
-      }
-
-      .book {
-        width: 90%;
-        height: 180px;
-      }
-
-      .gift-popup {
-        max-width: 90vw;
-        max-height: 80vh;
-      }
-    }
   </style>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 </head>
 <body>
-  <!-- phần nội dung không đổi -->
+  <div id="confettiContainer"></div>
+
+  <div class="container">
+    <!-- Slide 1 -->
+   <section class="slide active">
+  <h1>🎉 Chúc mừng sinh nhật! 🎂</h1>
+  <p>Chúc bạn một ngày ngập tràn niềm vui và yêu thương!</p>
+
+  <!-- Ảnh kỷ niệm chính giữa -->
+  <img src="images/linhanhmain.jpg" alt="Ảnh Linh Anh" style="max-width: 250px; border-radius: 12px; margin: 20px 0; box-shadow: 0 4px 12px rgba(0,0,0,0.3);">
+
+  <!-- Caption cảm xúc -->
+  <p style="font-style: italic; font-size: 18px; color: #d63384; margin-bottom: 20px;">
+    "Tuổi mới lại đến, mong rằng mọi điều tốt đẹp cũng sẽ đến với cậu 💗"
+  </p>
+
+  <!-- Ảnh bên trái -->
+  <div class="photo-frame left-frame">
+    <div class="rope"></div>
+    <img src="images/linhanh1.jpg" alt="Ảnh 1">
+  </div>
+
+  <!-- Ảnh bên phải -->
+  <div class="photo-frame right-frame">
+    <div class="rope"></div>
+    <img src="images/linhanh2.jpg" alt="Ảnh 2">
+  </div>
+
+  <button onclick="nextSlide()">Tiếp tục</button>
+</section>
+
+
+    <!-- Slide 2: Sách lật lời chúc -->
+<section class="slide">
+  <!-- 2 ảnh treo giống slide 1 -->
+  <div class="photo-frame left-frame">
+    <div class="rope"></div>
+    <img src="images/linhanh3.jpg" alt="Ảnh 3">
+  </div>
+
+  <div class="photo-frame right-frame">
+    <div class="rope"></div>
+    <img src="images/linhanh4.jpg" alt="Ảnh 4">
+  </div>
+
+  <!-- Sách lật -->
+  <div class="book" onclick="this.classList.toggle('open')">
+    <div class="book-inner">
+      <div class="page front">
+        <h3>Ấn vào để mở lời chúc</h3>
+      </div>
+      <div class="page back">
+        <h2>Chúc mừng sinh nhật!</h2>
+        <p>Chúc mừng sinh nhật Linh Anh!
+Chúc cậu luôn xinh đẹp, rạng rỡ và tràn đầy năng lượng tích cực như ánh nắng đầu ngày. Tuổi mới đến rồi, mong rằng mọi điều tốt đẹp nhất cũng sẽ đến với cậu: công việc suôn sẻ, những dự định sớm thành hiện thực, và cuộc sống luôn trọn vẹn niềm vui.
+Dù cuộc sống có bận rộn hay áp lực, hy vọng cậu vẫn giữ được nụ cười lạc quan và trái tim ấm áp như bây giờ. Cảm ơn vì đã là một người bạn tuyệt vời – thông minh, mạnh mẽ và luôn truyền cảm hứng cho những người xung quanh.
+Tuổi mới thật rực rỡ nhé, Linh Anh!</p>
+      </div>
+    </div>
+  </div>
+
+  <button onclick="nextSlide()">Tiếp tục</button>
+</section>
+
+
+    <!-- Slide 3 -->
+    <section class="slide">
+      <img src="images/linhanh.jpg" alt="Ảnh sinh nhật">
+      <p>Đây là món quà nhỏ dành cho bạn 💝</p>
+      <button onclick="nextSlide()">Tiếp tục</button>
+    </section>
+
+    <!-- Slide 4 -->
+    <section class="slide">
+      <h2>🎁 Chọn một trong những hộp quà bên dưới 🎁</h2>
+      <div class="gift-grid"></div>
+    </section>
+  </div>
+
+  <!-- Popup quà -->
+  <div class="gift-overlay" id="giftOverlay">
+    <div class="gift-popup">
+      <img id="giftImage" src="" alt="Món quà" />
+      <p>🎉 Chúc mừng! Đây là món quà bạn nhận được 🎊</p>
+      <button onclick="closeGift()">Đóng</button>
+    </div>
+  </div>
+
+  <script>
+    const confettiContainer = document.createElement('div');
+    document.body.appendChild(confettiContainer);
+    const emojis = ['🎉', '💖', '🎂', '🎈', '🌟'];
+    for (let i = 0; i < 50; i++) {
+      const emoji = document.createElement('div');
+      emoji.className = 'confetti';
+      emoji.innerText = emojis[Math.floor(Math.random() * emojis.length)];
+      emoji.style.left = Math.random() * 100 + 'vw';
+      emoji.style.animationDelay = Math.random() * 3 + 's';
+      emoji.style.position = 'fixed';
+      confettiContainer.appendChild(emoji);
+    }
+
+    let currentSlide = 0;
+    const slides = document.querySelectorAll('.slide');
+
+    function nextSlide() {
+      slides[currentSlide].classList.remove('active');
+      currentSlide = (currentSlide + 1) % slides.length;
+      slides[currentSlide].classList.add('active');
+      if (slides[currentSlide].querySelector('.gift-grid')) renderGifts();
+    }
+
+    function openGift(num) {
+      const giftImage = document.getElementById('giftImage');
+      giftImage.src = 'images/download.jpg';
+      document.getElementById('giftOverlay').classList.add('active');
+    }
+
+    function closeGift() {
+      document.getElementById('giftOverlay').classList.remove('active');
+    }
+
+    const giftData = [
+      { id: 1, src: 'images/giftbox.jpg' },
+      { id: 2, src: 'images/giftbox.jpg' },
+      { id: 3, src: 'images/giftbox.jpg' },
+      { id: 4, src: 'images/giftbox.jpg' },
+      { id: 5, src: 'images/giftbox.jpg' }
+    ];
+
+    function shuffle(array) {
+      for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+      }
+      return array;
+    }
+
+    function renderGifts() {
+      const giftGrid = document.querySelector('.gift-grid');
+      if (!giftGrid) return;
+      giftGrid.innerHTML = '';
+      const shuffled = shuffle([...giftData]);
+      shuffled.forEach(gift => {
+        const img = document.createElement('img');
+        img.src = gift.src;
+        img.className = 'gift-box';
+        img.onclick = () => openGift(gift.id);
+        giftGrid.appendChild(img);
+      });
+    }
+
+    setInterval(() => {
+      const giftGrid = document.querySelector('.gift-grid');
+      if (giftGrid && giftGrid.closest('.slide').classList.contains('active')) {
+        renderGifts();
+      }
+    }, 2000);
+  </script>
 </body>
 </html>
