@@ -1,0 +1,117 @@
+body {
+  margin: 0;
+  font-family: 'Segoe UI', sans-serif;
+  background: linear-gradient(to right, #ffe0f0, #ffd6e8);
+  color: #d63384;
+  overflow: hidden; /* Ngăn scroll gây lắc */
+  position: relative;
+}
+
+.container {
+  width: 100vw;
+  height: 100vh;
+  position: relative;
+  overflow: hidden;
+}
+
+.slide {
+  position: fixed; /* Cố định slide để không bị nhảy layout */
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  visibility: hidden;
+  transform: scale(0.95);
+  transition: opacity 0.8s ease, transform 0.8s ease;
+  z-index: 0;
+}
+
+.slide.active {
+  opacity: 1;
+  visibility: visible;
+  transform: scale(1);
+  z-index: 10;
+}
+
+button {
+  padding: 10px 20px;
+  font-size: 1.2em;
+  margin-top: 20px;
+  background-color: #ff69b4;
+  color: white;
+  border: none;
+  border-radius: 30px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+button:hover {
+  background-color: #ff1493;
+}
+
+img {
+  max-width: 90%;
+  height: auto;
+  border-radius: 15px;
+  margin: 20px 0;
+}
+
+.gift-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+  gap: 20px;
+  max-width: 600px;
+  margin: 30px auto;
+}
+
+.gift-box {
+  width: 100px;
+  height: 100px;
+  background: url('images/giftbox.png') no-repeat center center;
+  background-size: cover;
+  cursor: pointer;
+  transition: transform 0.3s ease;
+}
+
+.gift-box:hover {
+  transform: scale(1.1);
+}
+
+.gift-reveal {
+  margin-top: 30px;
+  display: none;
+  animation: fade 0.8s ease-in-out;
+}
+
+.gift-reveal img {
+  width: 200px;
+  margin-bottom: 15px;
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+}
+
+@keyframes fade {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.confetti {
+  position: fixed; /* fixed để không đẩy layout */
+  top: 0;
+  width: 10px;
+  height: 10px;
+  background-color: #ff69b4;
+  animation: fall 3s linear infinite;
+  pointer-events: none;
+  z-index: 1000;
+}
+
+@keyframes fall {
+  0% { transform: translateY(-100px) rotate(0deg); opacity: 1; }
+  100% { transform: translateY(100vh) rotate(360deg); opacity: 0; }
+}
